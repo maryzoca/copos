@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Copos 3D - Realismo Extremo</title>
+    <style>
+        body {
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            gap: 80px; 
+            perspective: 1200px;
+        }
+
+        .glass {
+            position: relative;
+            width: 180px;  
+            height: 500px; 
+            background: linear-gradient(90deg, 
+                rgba(255,255,255,0.05) 0%, 
+                rgba(255,255,255,0.15) 50%, 
+                rgba(255,255,255,0.05) 100%);
+            border-left: 2px solid rgba(255, 255, 255, 0.2);
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+            border-bottom: 4px solid rgba(255, 255, 255, 0.2);
+            border-bottom-left-radius: 40px; 
+            border-bottom-right-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.8);
+        }
+
+        /* BORDA SUPERIOR REALISTA */
+        .glass::before {
+            content: "";
+            position: absolute;
+            top: -25px; 
+            left: -2px; 
+            width: calc(100% + 4px);
+            height: 50px; 
+            
+            /* Simula o reflexo do aro do vidro */
+            background: rgba(255, 255, 255, 0.05);
+            
+            /* Borda principal com brilho variável */
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top: 3px solid rgba(255, 255, 255, 0.5); /* Luz vindo de cima */
+            
+            border-radius: 50%;
+            z-index: 2;
+            box-sizing: border-box;
+            
+            /* Efeito de profundidade no 'lábio' do vidro */
+            box-shadow: 
+                inset 0 0 10px rgba(255, 255, 255, 0.1),
+                0 2px 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* Adição de um brilho extra no aro (ponto de luz especular) */
+        .glass::after {
+            content: "";
+            position: absolute;
+            top: -22px;
+            left: 20px;
+            width: 40px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            filter: blur(4px); /* Brilho suave no topo */
+            z-index: 3;
+            transform: rotate(-10deg);
+        }
+
+        .liquid-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: flex-end;
+            overflow: hidden;
+            border-bottom-left-radius: 38px;
+            border-bottom-right-radius: 38px;
+        }
+
+        .liquid {
+            width: 100%;
+            position: relative;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease-in-out;
+        }
+
+        .liquid::after {
+            content: "";
+            position: absolute;
+            top: -20px; 
+            left: 0;
+            width: 100%;
+            height: 40px; 
+            border-radius: 50%;
+            filter: brightness(1.3);
+            opacity: 0.8;
+        }
+
+        .blue-liquid { 
+            background: linear-gradient(to top, #0055ff, #00c3ff);
+            animation-name: fillBlue;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.6);
+        }
+        .blue-liquid::after { background: #00c3ff; }
+
+        .yellow-liquid { 
+            background: linear-gradient(to top, #ff9900, #ffcc00);
+            animation-name: fillYellow;
+            box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.4);
+        }
+        .yellow-liquid::after { background: #ffcc00; }
+
+        @keyframes fillBlue {
+            0% { height: 92%; }
+            100% { height: 8%; }
+        }
+
+        @keyframes fillYellow {
+            0% { height: 8%; }
+            100% { height: 92%; }
+        }
+
+        /* Reflexo lateral do corpo do copo */
+        .glass .reflection {
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            width: 8px;
+            height: 80%;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+            border-radius: 10px;
+            filter: blur(1px);
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="glass">
+        <div class="reflection"></div>
+        <div class="liquid-container">
+            <div class="liquid blue-liquid"></div>
+        </div>
+    </div>
+
+    <div class="glass">
+        <div class="reflection"></div>
+        <div class="liquid-container">
+            <div class="liquid yellow-liquid"></div>
+        </div>
+    </div>
+
+</body>
+</html>
